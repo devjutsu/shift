@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Shift! — Игра трансформации</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cameo-pink: #F2B6CC;
+            --cyclamen: #F263A6;
+            --metallic-seaweed: #04738C;
+            --fluorescent-blue: #29DEF2;
+            --lemon-meringue: #F2E7C4;
+            --dark-bg: #034f60;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--metallic-seaweed), var(--dark-bg));
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            color: var(--fluorescent-blue);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .intro {
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid var(--cyclamen);
+        }
+
+        .intro ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .intro li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .intro li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: var(--cyclamen);
+        }
+
+        /* Card Styles */
+        #card-container {
+            perspective: 1000px;
+            min-height: 350px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--lemon-meringue);
+            color: #333;
+            border-radius: 20px;
+            padding: 40px 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .card.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .card-type {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--metallic-seaweed);
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding: 5px 15px;
+            border: 1px solid var(--metallic-seaweed);
+            border-radius: 20px;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .card-question {
+            font-size: 1.1rem;
+            font-style: italic;
+            line-height: 1.5;
+            color: #444;
+        }
+
+        /* Button Styles */
+        .btn {
+            background-color: var(--cyclamen);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(242, 99, 166, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background-color: #d64d8b;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(242, 99, 166, 0.6);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .placeholder-text {
+            font-style: italic;
+            opacity: 0.7;
+            margin-top: 100px;
+        }
+
+        footer {
+            margin-top: 60px;
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>The Shift!</h1>
+        
+        <div class="intro">
+            <p>Для тех, кто хочет:</p>
+            <ul>
+                <li>перейти в новое качество и выйти на новый уровень</li>
+                <li>найти новые смыслы, пересмотреть стратегии</li>
+                <li>избавиться от ограничивающих убеждений</li>
+                <li>увидеть ситуацию со стороны и найти решения</li>
+                <li>сделать тот самый шаг, который давно откладывался</li>
+            </ul>
+        </div>
+
+        <div id="card-container">
+            <div id="welcome-text" class="placeholder-text">
+                Готовы встретиться со своим Саботажником?<br>Нажмите кнопку, чтобы вытянуть карту.
+            </div>
+            <!-- Сюда будет рендериться карточка -->
+        </div>
+
+        <button class="btn" onclick="drawCard()">Получить карту саботажа</button>
+    </div>
+
+    <footer>&copy; 2024 The Shift! Game</footer>
+
+    <script>
+        const cards = [
+            // Стены
+            { type: "🔴 Стены", title: "Замурованное окно", text: "Что ты перестал видеть, закрыв это окно?" },
+            { type: "🔴 Стены", title: "Карта чужой страны", text: "Чьим маршрутом ты идёшь — и твой ли это путь?" },
+            { type: "🔴 Стены", title: "Клетка без замка", text: "Что удерживает тебя здесь, если дверь открыта?" },
+            { type: "🔴 Стены", title: "Эхо в пустом зале", text: "Чей голос ты слышишь — свой или чужой?" },
+            { type: "🔴 Стены", title: "Горизонт, который не приближается", text: "К чему ты идёшь уже давно — и движешься ли?" },
+            { type: "🔴 Стены", title: "Якорь на дне", text: "Что держит тебя там, где ты не хочешь быть?" },
+            // Туман
+            { type: "🟠 Туман", title: "Густой туман", text: "Что ты не можете разглядеть — и боишься увидеть?" },
+            { type: "🟠 Туман", title: "Мост, которого нет", text: "Как ты переходишь, когда опоры нет?" },
+            { type: "🟠 Туман", title: "Тяжёлый рюкзак", text: "Что ты несёшь, что давно пора оставить?" },
+            { type: "🟠 Туман", title: "Развилка без указателей", text: "Как ты выбираешь, когда не знаешь куда?" },
+            { type: "🟠 Туман", title: "Чужие камни на дороге", text: "Что из чужого ты взял в свой путь?" },
+            { type: "🟠 Туман", title: "Замёрзший ручей", text: "Где в тебе остановилось то, что должно течь?" },
+            // Тени
+            { type: "🟣 Тени", title: "Тень, которая управляет", text: "Какая часть тебя действует — пока ты не смотришь?" },
+            { type: "🟣 Тени", title: "Зеркало, повёрнутое к стене", text: "От чего в себе ты отворачиваешься?" },
+            { type: "🟣 Тени", title: "Крепость без врагов", text: "От кого ты защищаешься — когда угрозы нет?" },
+            { type: "🟣 Тени", title: "Дирижёр без оркестра", text: "Кем ты управляешь — и слушают ли тебя?" },
+            { type: "🟣 Тени", title: "Бесконечная репетиция", text: "Когда ты наконец выйдешь на сцену?" },
+            { type: "🟣 Тени", title: "Чужой пьедестал", text: "Чью высоту ты меряешь своей?" },
+            // Маски
+            { type: "⚫ Маски", title: "Красивая витрина", text: "Что ты выставляешь напоказ — вместо настоящего?" },
+            { type: "⚫ Маски", title: "Удобная история", text: "Какую историю ты рассказываешь себе, чтобы не меняться?" },
+            { type: "⚫ Маски", title: "Карнавальная маска", text: "Кто под маской — и когда ты последний раз был без неё?" },
+            { type: "⚫ Маски", title: "Компас, показывающий на юг", text: "В какую сторону ты на самом деле идёшь?" },
+            { type: "⚫ Маски", title: "Тихий голос", text: "Что ты слышишь тихо внутри — и предпочитаешь не слышать?" },
+            { type: "⚫ Маски", title: "Занавес", text: "Что скрыто за тем, что ты показываешь?" }
+        ];
+
+        let lastIndex = -1;
+
+        function drawCard() {
+            const container = document.getElementById('card-container');
+            const welcome = document.getElementById('welcome-text');
+            
+            if (welcome) welcome.remove();
+
+            // Чтобы не выпадала дважды одна и та же карта подряд
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * cards.length);
+            } while (randomIndex === lastIndex);
+            
+            lastIndex = randomIndex;
+            const cardData = cards[randomIndex];
+
+            // Анимация ухода старой карточки
+            container.innerHTML = '';
+
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card';
+            cardElement.innerHTML = `
+                <div class="card-type">${cardData.type}</div>
+                <div class="card-title">${cardData.title}</div>
+                <div class="card-question">${cardData.text}</div>
+            `;
+
+            container.appendChild(cardElement);
+
+            // Небольшая задержка для запуска анимации появления
+            setTimeout(() => {
+                cardElement.classList.add('active');
+            }, 50);
+        }
+    </script>
+</body>
+</html>
