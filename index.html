@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Shift! — Карты Саботажа</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cameo-pink: #F2B6CC;
+            --cyclamen: #F263A6;
+            --metallic-seaweed: #04738C;
+            --fluorescent-blue: #29DEF2;
+            --lemon-meringue: #F2E7C4;
+            --dark-bg: #034f60;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at top right, var(--dark-bg), #022a33);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: var(--fluorescent-blue);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(41, 222, 242, 0.3);
+        }
+
+        .intro {
+            font-weight: 300;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 20px;
+            border-radius: 15px;
+            border-left: 3px solid var(--cyclamen);
+        }
+
+        /* Card Container & Base Card */
+        #card-display {
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 420px;
+            min-height: 380px;
+            border-radius: 30px;
+            padding: 45px 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .card.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Тональность для каждой категории */
+        .card.walls { 
+            background: linear-gradient(135deg, #fff5f8, var(--cameo-pink)); 
+            color: #702a44;
+            box-shadow: 0 20px 50px rgba(242, 182, 204, 0.3);
+        }
+        .card.fog { 
+            background: linear-gradient(135deg, #fffdf5, var(--lemon-meringue)); 
+            color: #63501d;
+            box-shadow: 0 20px 50px rgba(242, 231, 196, 0.3);
+        }
+        .card.shadows { 
+            background: linear-gradient(135deg, #fff0f7, #f7a8cc); 
+            color: #5c1435;
+            box-shadow: 0 20px 50px rgba(242, 99, 166, 0.3);
+        }
+        .card.masks { 
+            background: linear-gradient(135deg, #e0e7e9, #a3bdc2); 
+            color: #1a3a40;
+            box-shadow: 0 20px 50px rgba(4, 115, 140, 0.2);
+        }
+
+        .card-category {
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            align-self: center;
+            background: rgba(255,255,255,0.4);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+
+        .card-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            line-height: 1.6;
+            padding-top: 25px;
+            border-top: 1px solid rgba(0,0,0,0.08);
+        }
+
+        /* Button */
+        .btn {
+            background-color: var(--cyclamen);
+            color: white;
+            border: none;
+            padding: 22px 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(242, 99, 166, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(242, 99, 166, 0.6);
+            background-color: #f57db5;
+        }
+
+        .placeholder {
+            font-style: italic;
+            opacity: 0.5;
+            font-size: 1.1rem;
+            max-width: 300px;
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 0.7rem;
+            opacity: 0.3;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>The Shift!</h1>
+        
+        <div class="intro">
+            <p style="font-weight: 700; color: var(--fluorescent-blue); margin-bottom: 5px;">Трансформационная игра</p>
+            <ul>
+                <li>Работа с ограничивающими убеждениями</li>
+                <li>Поиск новых смыслов и стратегий</li>
+                <li>Выход на новый финансовый и личный уровень</li>
+            </ul>
+        </div>
+
+        <div id="card-display">
+            <div class="placeholder">Закройте глаза, сделайте вдох и нажмите кнопку...</div>
+        </div>
+
+        <button class="btn" onclick="drawCard()">Вытянуть карту</button>
+    </div>
+
+    <footer>DESIGNED FOR THE SHIFT! GAME</footer>
+
+    <script>
+        const cards = [
+            { cat: "walls", catName: "🔴 Стены", title: "Замурованное окно", text: "Что ты перестал видеть, закрыв это окно?" },
+            { cat: "walls", catName: "🔴 Стены", title: "Карта чужой страны", text: "Чьим маршрутом ты идёшь — и твой ли это путь?" },
+            { cat: "walls", catName: "🔴 Стены", title: "Клетка без замка", text: "Что удерживает тебя здесь, если дверь открыта?" },
+            { cat: "walls", catName: "🔴 Стены", title: "Эхо в пустом зале", text: "Чей голос ты слышишь — свой или чужой?" },
+            { cat: "walls", catName: "🔴 Стены", title: "Горизонт, который не приближается", text: "К чему ты идёшь уже давно — и движешься ли?" },
+            { cat: "walls", catName: "🔴 Стены", title: "Якорь на дне", text: "Что держит тебя там, где ты не хочешь быть?" },
+            
+            { cat: "fog", catName: "🟠 Туман", title: "Густой туман", text: "Что ты не можешь разглядеть — и боишься увидеть?" },
+            { cat: "fog", catName: "🟠 Туман", title: "Мост, которого нет", text: "Как ты переходишь, когда опоры нет?" },
+            { cat: "fog", catName: "🟠 Туман", title: "Тяжёлый рюкзак", text: "Что ты несёшь, что давно пора оставить?" },
+            { cat: "fog", catName: "🟠 Туман", title: "Развилка без указателей", text: "Как ты выбираешь, когда не знаешь куда?" },
+            { cat: "fog", catName: "🟠 Туман", title: "Чужие камни на дороге", text: "Что из чужого ты взял в свой путь?" },
+            { cat: "fog", catName: "🟠 Туман", title: "Замёрзший ручей", text: "Где в тебе остановилось то, что должно течь?" },
+
+            { cat: "shadows", catName: "🟣 Тени", title: "Тень, которая управляет", text: "Какая часть тебя действует — пока ты не смотришь?" },
+            { cat: "shadows", catName: "🟣 Тени", title: "Зеркало, повёрнутое к стене", text: "От чего в себе ты отворачиваешься?" },
+            { cat: "shadows", catName: "🟣 Тени", title: "Крепость без врагов", text: "От кого ты защищаешься — когда угрозы нет?" },
+            { cat: "shadows", catName: "🟣 Тени", title: "Дирижёр без оркестра", text: "Кем ты управляешь — и слушают ли тебя?" },
+            { cat: "shadows", catName: "🟣 Тени", title: "Бесконечная репетиция", text: "Когда ты наконец выйдешь на сцену?" },
+            { cat: "shadows", catName: "🟣 Тени", title: "Чужой пьедестал", text: "Чью высоту ты меряешь своей?" },
+
+            { cat: "masks", catName: "⚫ Маски", title: "Красивая витрина", text: "Что ты выставляешь напоказ — вместо настоящего?" },
+            { cat: "masks", catName: "⚫ Маски", title: "Удобная история", text: "Какую историю ты рассказываешь себе, чтобы не меняться?" },
+            { cat: "masks", catName: "⚫ Маски", title: "Карнавальная маска", text: "Кто под маской — и когда ты последний раз был без неё?" },
+            { cat: "masks", catName: "⚫ Маски", title: "Компас, показывающий на юг", text: "В какую сторону ты на самом деле идёшь?" },
+            { cat: "masks", catName: "⚫ Маски", title: "Тихий голос", text: "Что ты слышишь тихо внутри — и предпочитаешь не слышать?" },
+            { cat: "masks", catName: "⚫ Маски", title: "Занавес", text: "Что скрыто за тем, что ты показываешь?" }
+        ];
+
+        let lastIndex = -1;
+
+        function drawCard() {
+            const display = document.getElementById('card-display');
+            
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * cards.length);
+            } while (newIndex === lastIndex);
+            
+            lastIndex = newIndex;
+            const data = cards[newIndex];
+
+            display.innerHTML = '';
+            
+            const cardEl = document.createElement('div');
+            // Добавляем класс категории прямо к карточке
+            cardEl.className = `card ${data.cat}`;
+            cardEl.innerHTML = `
+                <div class="card-category">${data.catName}</div>
+                <div class="card-title">${data.title}</div>
+                <div class="card-text">${data.text}</div>
+            `;
+
+            display.appendChild(cardEl);
+
+            setTimeout(() => cardEl.classList.add('active'), 50);
+        }
+    </script>
+</body>
+</html>
